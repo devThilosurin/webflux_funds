@@ -1,6 +1,7 @@
 package com.springwebflux.monoflux.utils;
 
 import com.github.javafaker.Faker;
+import org.reactivestreams.Subscriber;
 
 import java.util.function.Consumer;
 
@@ -30,5 +31,13 @@ public class ConsumerUtil {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static Subscriber<Object> subscriber() {
+        return new DefaultSubscriberUtil();
+    }
+
+    public static Subscriber<Object> subscriber(String name) {
+        return new DefaultSubscriberUtil(name);
     }
 }
