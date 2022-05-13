@@ -12,7 +12,7 @@ public class OnErrorEx {
 //                .onErrorReturn(1)
 //                .onErrorResume(e -> fallback())
                 .onErrorContinue((err, obj) -> {
-                    
+
                 })
                 .subscribe(ConsumerUtil.subscriber());
     }
