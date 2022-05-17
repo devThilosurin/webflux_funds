@@ -6,17 +6,17 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.stream.Stream;
 
-public class HotPublishEx {
+public class HotPublishCacheEx {
     public static void main(String[] args) {
-        Flux<String> movieStream = Flux.fromStream(HotPublishEx::getMovie)
+        Flux<String> movieStream = Flux.fromStream(HotPublishCacheEx::getMovie)
                 .delayElements(Duration.ofSeconds(1))
-                        .publish()
-//                        .refCount(1);
-                .refCount(2);
+                .cache(2);
 
         movieStream
                 .subscribe(ConsumerUtil.subscriber("sam"));
         ConsumerUtil.sleepSeconds(10);
+
+        System.out.println("Mike is about to join.");
 
         movieStream
                 .subscribe(ConsumerUtil.subscriber("mike"));

@@ -6,13 +6,12 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.util.stream.Stream;
 
-public class HotPublishEx {
+public class HotPublishAutoConnectEx {
     public static void main(String[] args) {
-        Flux<String> movieStream = Flux.fromStream(HotPublishEx::getMovie)
+        Flux<String> movieStream = Flux.fromStream(HotPublishAutoConnectEx::getMovie)
                 .delayElements(Duration.ofSeconds(1))
-                        .publish()
-//                        .refCount(1);
-                .refCount(2);
+                .publish()
+                .autoConnect(1);
 
         movieStream
                 .subscribe(ConsumerUtil.subscriber("sam"));

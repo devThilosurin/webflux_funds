@@ -24,4 +24,22 @@ public class NameGenerator {
         ConsumerUtil.sleepSeconds(1);
         return ConsumerUtil.faker().name().fullName();
     }
+
+    private List<String> list = new ArrayList<>();
+
+    public Flux<String> generateNames() {
+        return Flux.generate(stringSynchronousSink -> {
+                    System.out.println("Generated Fresh >>> ");
+                    ConsumerUtil.sleepSeconds(1);
+                    String name = ConsumerUtil.faker().name().fullName();
+                    list.add(name);
+                    stringSynchronousSink.next(name);
+                })
+                .cast(String.class)
+                .startWith(getFromCache());
+    }
+
+    private Flux<String> getFromCache() {
+        return Flux.fromIterable(list);
+    }
 }
